@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue Hello!!!!</title>
+</head>
+<body>
+    <div id="vueapp">
+        <h3>Hello, {{ name }}!!!!</h3>
+        <h4>Loctation: {{location}}</h4>
+        <h4>{{ welcome() }}</h4>
+        <h4>{{ message("Today is day 01 with Vue!!!!") }}</h4>
+        Friend Name: <input type="text" v-bind:value="friendname">
+        <br>
+        {{friendname}}
+        <br>
+        Friend Location: <input type="text" v-model="friendlocation">
+        <br>
+        {{friendlocation}}, {{ getFriendLocation() }}
+    </div>
+<hr>
+    <div id="anothervue">
+
+        <h3>Hello, {{ name }}!!!!</h3>
+    </div>
+    
+    <script src="001hellovue.js"></script>
+</body>
+</html>
