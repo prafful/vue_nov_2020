@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title>Vue Events</title>
+    <style>
+        #mousehome{
+            width: 400px;
+            height: 400px;
+            text-align: center;
+            border: 1px solid salmon;
+        }
+    </style>
 </head>
 <body>
 
@@ -12,9 +20,19 @@
         <button v-on:mouseover="increment" >Add</button>
         Score: {{score}}
         <button v-on:click="decrement" >Minus</button>
-
+        <div id="mousehome" v-on:mousemove="captureXYPositionOfMouse">{{ x }}, {{ y }}</div>
+        <button v-on:click.once="increment" >Add</button>
+        Score: {{score}}
+        <button v-on:click.alt="decrement" >Minus</button>
+        <br><br>
+        <!-- buggy ----
+        <input type="number" 
+                v-on:keyup="increment" 
+                v-on:keyup.alt.enter="decrement" 
+                v-bind:value="score">
+        -->        
     </div>
-
+    
 <script src="002events.js"></script>
 </body>
 </html>

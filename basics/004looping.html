@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Vue Looping</title>
+</head>
+<body>
+
+    <div id="vueapp">
+        <ol>
+            <li v-for="(f, index) in friends">{{f}} at index {{index}}</li>
+        </ol>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(friend, index) in details">
+                    <td>{{friend.id}}</td>
+                    <td>{{friend.name}}</td>
+                    <td>{{friend.location}}</td>
+                    <td>
+                        <button v-on:click="whoAmI(index, friend.id)">Edit</button>
+                    </td>
+                    <td>
+                        <button>Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+<script src="004looping.js"></script>
+</body>
+</html>
