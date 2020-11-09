@@ -17,8 +17,26 @@
         <div>Blogs:</div>
         <br>
          <div>
-            <button>Add Blog</button>
-         
+            <button v-on:click="toggleDisplayAddBlog">Add Blog</button>
+            {{displayAddBlog}}
+        </div>
+        <br>
+        <div v-if="displayAddBlog">
+            <div>
+                <form >
+                    <label >Title: </label>
+                    <input type="text" v-model="blog.title">
+                    <br>
+                    <label >Body:</label>
+                    <textarea cols="30" rows="10" v-model="blog.body"></textarea>
+                    <br>
+                    <button v-on:click.prevent="addBlog">Add</button>
+                </form>
+            </div>
+            <div>
+                <b>Title: </b><p>{{blog.title}}</p>
+                <b>Body: </b><p>{{blog.body}}</p>
+            </div>
         </div>
         <ol class="blogs">
             <li class="blogitem" v-for="blog in blogs" v-bind:key="blog.id">
@@ -69,8 +87,46 @@ export default{
 
             ],
             users:[],
-            blogs:[]
+            blogs:[],
+            displayAddBlog: false,
+            blog:{
+                title:'',
+                body:''
+            }
         }
+    },
+    methods:{
+        toggleDisplayAddBlog: function(){
+            this.displayAddBlog = !this.displayAddBlog
+        },
+        addBlog: function(){
+            console.log("Add blog by making call to rest api!!!!")
+            this.$http.post("http://localhost:1234/blogs", this.blog)
+                    .then(response=>{
+                        console.log(response)
+                        this.displayAddBlog = false
+                        this.blog={
+                                title:'',
+                                body:''
+                            }
+                        this.getAllBlogs()
+                    })
+                    .catch(error=>{
+                        console.log(error)
+                    })
+        },
+        getAllBlogs: function(){
+            this.$http.get("http://localhost:1234/blogs")
+                            .then(response=>{
+                                console.log(response)
+                                console.log(response.body)
+                                console.log(response.data)
+                                this.blogs = response.data
+                            })
+                            .catch(error=>{
+                                console.log(error)
+                            })  
+                    }
     },
     mounted: function(){
         this.$http.get("https://jsonplaceholder.typicode.com/users")
@@ -83,16 +139,8 @@ export default{
                     .catch(error=>{
                         console.log(error)
                     })
-        this.$http.get("http://localhost:1234/blogs")
-                .then(response=>{
-                    console.log(response)
-                    console.log(response.body)
-                    console.log(response.data)
-                    this.blogs = response.data
-                })
-                .catch(error=>{
-                    console.log(error)
-                })            
+         this.getAllBlogs()           
+                 
     }
 }
 
