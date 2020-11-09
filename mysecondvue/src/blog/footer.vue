@@ -1,6 +1,8 @@
 <template>
     <div>
         <h1>{{message}}</h1>
+        <h4>@ {{year}} &nbsp;<button v-on:click="updateYear">Update</button> </h4>
+
      
     </div>
 </template>
@@ -10,7 +12,13 @@ export default{
     
     data:function(){
         return {
-            message:"App Footer!!!!"
+            message:"App Footer!!!!",
+            year:2020
+        }
+    },
+    methods:{
+        updateYear: function(){
+            this.year = this.year + 1
         }
     },
     beforeCreate: function(){
@@ -28,7 +36,16 @@ export default{
     mounted: function(){
          console.log('in mounted lifecycle hook')
         //alert("mounted")
-    }
+    },
+    beforeUpdate: function(){
+        console.log("in beforeUpdate lifecycle hook: " + this.year)
+        alert()
+
+    },
+    updated: function(){
+         console.log('in updated lifecycle hook: ' + this.year)
+        //alert("mounted")
+    },
 }
 
 </script>
