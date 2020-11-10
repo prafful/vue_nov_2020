@@ -21,6 +21,7 @@
             {{displayAddBlog}}
         </div>
         <br>
+        <!--Add blog -->
         <div v-if="displayAddBlog">
             <div>
                 <form >
@@ -38,6 +39,27 @@
                 <b>Body: </b><p>{{blog.body}}</p>
             </div>
         </div>
+        <!--Edit blog -->
+         <div v-if="displayEditBlog">
+            <div>
+                <form >
+                    <label>Id: </label>
+                    <input type="text" v-model="editblog.id" readonly>
+                    <br>
+                    <label >Title: </label>
+                    <input type="text" v-model="editblog.title">
+                    <br>
+                    <label >Body:</label>
+                    <textarea cols="30" rows="10" v-model="editblog.body"></textarea>
+                    <br>
+                    <button v-on:click.prevent="editBlog">Update</button>
+                </form>
+            </div>
+            <div>
+                <b>Title: </b><p>{{editblog.title}}</p>
+                <b>Body: </b><p>{{editblog.body}}</p>
+            </div>
+        </div>
         <ol class="blogs">
             <li class="blogitem" v-for="blog in blogs" v-bind:key="blog.id">
                 {{blog.id}}#{{blog.title}}
@@ -46,7 +68,7 @@
                     {{blog.body}}
                 </span>
                 <div>
-                    <button>Edit</button>
+                    <button v-on:click="toggleDisplayEditForm(blog.id)">Edit</button>
                     &nbsp;
                     <button v-on:click="deleteBlog(blog.id)">Delete</button>
                 </div>
@@ -89,7 +111,14 @@ export default{
             users:[],
             blogs:[],
             displayAddBlog: false,
+            displayEditBlog: false,
             blog:{
+                id:0,
+                title:'',
+                body:''
+            },
+            editblog:{
+                id:0,
                 title:'',
                 body:''
             }
@@ -138,7 +167,45 @@ export default{
                         .catch(error =>{
                             console.log(error)
                         })
+        },
+        toggleDisplayEditForm: function(id){
+            if(!this.displayEditBlog){
+                this.displayEditBlog = !this.displayEditBlog
+            }
+            
+            console.log("Edit blog is " + this.displayEditBlog + " for id: " + id)
+            this.$http.get("http://localhost:1234/blogs" + "/" + id)
+                        .then(response =>{
+                            console.log(response)
+                            this.editblog = response.body
+                        })
+                        .catch(error=>{
+                            console.log(error)
+                        })
+            
+        },
+        editBlog: function(){
+            var tempBlogItem = {
+                "title": this.editblog.title,
+                "body": this.editblog.body
+            }
+            console.log("Edit blog with id: " + this.editblog.id)
+            this.$http.put("http://localhost:1234/blogs" + "/" + this.editblog.id, tempBlogItem)
+                        .then(response =>{
+                            console.log(response)
+                            this.editblog={
+                                id: 0,
+                                title:'',
+                                body:''
+                            }
+                            this.displayEditBlog = false
+                            this.getAllBlogs()
+                        })
+                        .catch(error=>{
+                            console.log(error)
+                        })
         }
+
     },
     mounted: function(){
         this.$http.get("https://jsonplaceholder.typicode.com/users")
