@@ -40,7 +40,7 @@
         </div>
         <ol class="blogs">
             <li class="blogitem" v-for="blog in blogs" v-bind:key="blog.id">
-                {{blog.title}}
+                {{blog.id}}#{{blog.title}}
                 <br>
                 <span class="blogbody">
                     {{blog.body}}
@@ -48,7 +48,7 @@
                 <div>
                     <button>Edit</button>
                     &nbsp;
-                    <button>Delete</button>
+                    <button v-on:click="deleteBlog(blog.id)">Delete</button>
                 </div>
              
             </li>
@@ -106,6 +106,7 @@ export default{
                         console.log(response)
                         this.displayAddBlog = false
                         this.blog={
+                                id: 0,
                                 title:'',
                                 body:''
                             }
@@ -126,7 +127,18 @@ export default{
                             .catch(error=>{
                                 console.log(error)
                             })  
-                    }
+        },
+        deleteBlog: function(id){
+            console.log("Delete blog with id: " + id)
+            this.$http.delete("http://localhost:1234/blogs" + "/" + id)
+                        .then(response=>{
+                            console.log(response)
+                            this.getAllBlogs()
+                        })
+                        .catch(error =>{
+                            console.log(error)
+                        })
+        }
     },
     mounted: function(){
         this.$http.get("https://jsonplaceholder.typicode.com/users")
