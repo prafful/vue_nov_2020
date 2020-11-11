@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>{{message}}</h1>
-        <p>{{newsitem}}</p>
+        <p v-on:click="updateNews" >{{newsitem}}</p>
         <ol>
             <li v-for="detail in somedetails" v-bind:key="detail.id">
                 {{detail.name}}
@@ -18,7 +18,13 @@ export default {
     },
     data: function(){
         return {
-            message: "News"
+            message: "News",
+          
+        }
+    },
+    methods:{
+        updateNews: function(){
+            this.$emit('updatedNewsItem', "We will be concluding on day 07!!!!") 
         }
     }
 }

@@ -2,8 +2,9 @@
     <div>
         <h1>{{message}}</h1>
         <appNews 
-            newsitem="Today is day 06 with Vue!"
-            v-bind:somedetails="details">
+            v-bind:newsitem="newsitem"
+            v-bind:somedetails="details"
+            v-on:updatedNewsItem="newsItemUpdated($event)">
         </appNews>
     </div>
 </template>
@@ -18,6 +19,7 @@ export default {
     data: function(){
         return {
             message: "Home",
+            newsitem:"Today is day 06 with Vue!",
             details:[
                 {
                     id:1,
@@ -42,7 +44,14 @@ export default {
 
         ]
         }
+    },
+    methods:{ 
+        newsItemUpdated: function(e){
+            console.log(e)
+            this.newsitem = e
+        }
     }
+
 }
 </script>
 
